@@ -1,0 +1,37 @@
+.passValid{
+    color: red;
+    width: fit-content;
+    transition:
+     color 0.8s, 
+     visibility 1.5s,
+     opacity 1.5s,
+     max-height 0.1s linear 0.5s
+     ;
+    position: relative;
+    visibility: visible;
+    opacity: 1;
+    max-height: 50px;
+}
+.passValid.valid{
+    color: green;
+    visibility: hidden;
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+}
+.passValid::before{
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: green;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s;
+}
+.passValid.valid::before{
+    transform: scaleX(1);
+}
