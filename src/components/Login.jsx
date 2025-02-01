@@ -33,7 +33,7 @@ const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const nameRef = useRef(null);
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.userConfig.user);
   const navigate = useNavigate();
 
   const resetData = () => {

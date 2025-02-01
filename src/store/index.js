@@ -5,7 +5,7 @@ import { youtubeAPI } from "../services/youtubeService";
 
 const store = configureStore({
   reducer: {
-    user: userReducer,
+    userConfig: userReducer,
     [traktAPI.reducerPath]: traktAPI.reducer,
     [youtubeAPI.reducerPath]: youtubeAPI.reducer,
   },

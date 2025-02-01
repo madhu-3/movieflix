@@ -11,6 +11,8 @@ const Browse = () => {
     isLoading,
   } = useGetTrendingMovieListQuery(10);
 
+  console.log("trendingMovies", trendingMovies);
+
   return (
     <div>
       <Header />
