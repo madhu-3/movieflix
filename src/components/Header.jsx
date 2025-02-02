@@ -14,7 +14,7 @@ const Header = () => {
       });
   };
   return (
-    <div className="fixed top-0 left-0 right-0 flex justify-between h-16">
+    <div className="fixed top-0 left-0 right-0 flex justify-between h-16 bg-black brightness-75">
       <img alt="logo" className="w-52" src={APP_LOGO_IMG} />
       {user && (
         <div className="flex justify-between items-center gap-2">
