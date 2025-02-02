@@ -15,17 +15,17 @@ export const traktAPI = createApi({
     getTrendingMovieList: builder.query({
       query: (limit = 10) => `movies/trending`,
     }),
-    getMovieDetails: builder.query({
-      query: (id) => `movies/${id}`,
+    getPopularMovieList: builder.query({
+      query: () => `movies/popular`,
     }),
-    getMoviePeople: builder.query({
-      query: (id) => `movies/${id}/people`,
+    getMostPlayedMovieList: builder.query({
+      query: () => `movies/played/weekly`,
     }),
   }),
 });
 
 export const {
-  useGetTrendingMovieListQuery,
-  useGetMovieDetailsQuery,
-  useGetMoviePeopleQuery,
+  useLazyGetTrendingMovieListQuery,
+  useLazyGetPopularMovieListQuery,
+  useLazyGetMostPlayedMovieListQuery,
 } = traktAPI;

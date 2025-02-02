@@ -19,20 +19,23 @@ const MainVideoContainer = ({ trendingMovie }) => {
 
   return (
     <div className="mt-16 h-[calc(100vh-64px)] relative">
-      <MainVideoTitleContainer movieDetails={trendingMovie} />
       {isLoading ? (
         <Loader />
       ) : (
-        <iframe
-          width="100%"
-          height="100%"
-          src={`https://www.youtube.com/embed/${trailerId}?autoplay=1&mute=1`}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        ></iframe>
+        <>
+          <MainVideoTitleContainer movieDetails={trendingMovie} />
+          <div className="bg-[linear-gradient(transparent,black)] absolute w-full h-full top-0 left-0"></div>
+          <iframe
+            width="100%"
+            height="100%"
+            src={`https://www.youtube.com/embed/${trailerId}?autoplay=1&mute=1`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </>
       )}
     </div>
   );
