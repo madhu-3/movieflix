@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    background-color: black;
+}
+.movie-container .swiper-button-prev, .movie-container .swiper-button-next {
+  color: transparent !important; /* Change arrow color to red */
+  transition: color 0.5s;
+}
+.movie-container:hover .swiper-button-prev, .movie-container:hover .swiper-button-next {
+  color: white !important; /* Change arrow color to red */
+}

@@ -44,7 +44,7 @@ const Browse = () => {
   }, [trendingMovies, popularMovies, mostPlayedMovies]);
 
   return (
-    <div className="bg-black">
+    <div>
       <Header />
       {loadingTrending || loadingPopular || loadingMostPlayed ? (
         <Loader />
