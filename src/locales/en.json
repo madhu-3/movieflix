@@ -1,0 +1,22 @@
+{
+    "login":{
+        "name":"Name",
+        "email":"Email",
+        "Password":"Password",
+        "signIn":"Sign In",
+        "signUp":"Sign up",
+        "alreadyUser":"Already User ? ",
+        "newTo":"New to Movieflix ? ",
+        "validations":{
+            "name":"Name Should Contain atleast 3 characters",
+            "email":"Please enter valid email",
+            "password":{
+                "num":"Contain atleast 1 number",
+                "special":"Contain atleast 1 special character",
+                "up":"Contain atleast 1 uppercase",
+                "lo":"Contain atleast 1 lowercase",
+                "minlength":"Contain atleast 8 letters"
+            }
+        }
+    }
+}

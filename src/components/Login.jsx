@@ -16,8 +16,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../store/userSlice";
 import Header from "./Header";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isSignup, setIsSignup] = useState(false);
   const [nameValidate, setNameValidate] = useState(false);
@@ -130,7 +132,9 @@ const Login = () => {
         className="h-screen bg-cover bg-no-repeat bg-center flex items-center justify-center text-white"
       >
         <div className="bg-[rgba(0,0,0,0.7)] px-10 pt-10 pb-20 rounded-3xl">
-          <h3 className="text-3xl mb-6">{isSignup ? "Sign Up" : "Sign In"}</h3>
+          <h3 className="text-3xl mb-6">
+            {isSignup ? t("login.signUp") : t("login.signIn")}
+          </h3>
           <form onSubmit={(e) => e.preventDefault()}>
             {isSignup && (
               <div
@@ -138,7 +142,7 @@ const Login = () => {
                   nameValidate ? "mb-10" : "mb-4"
                 }`}
               >
-                <label>Name </label>
+                <label>{t("login.name")}</label>
                 <div>
                   <input
                     className="rounded-lg p-1 bg-transparent border border-gray-500"
@@ -148,7 +152,7 @@ const Login = () => {
                   />
                   {nameValidate && (
                     <p className="text-xs text-red-500 absolute p-1">
-                      Name Should Contain atleast 3 characters
+                      {t("login.validations.name")}
                     </p>
                   )}
                 </div>
@@ -159,7 +163,7 @@ const Login = () => {
                 emailValidate ? "mb-8" : "mb-4"
               }`}
             >
-              <label>Email </label>
+              <label>{t("login.email")} </label>
               <div>
                 <input
                   className="rounded-lg p-1 bg-transparent border border-gray-500"
@@ -169,13 +173,13 @@ const Login = () => {
                 />
                 {emailValidate && (
                   <p className="text-xs text-red-500 absolute p-1">
-                    Please enter valid email
+                    {t("login.validations.email")}
                   </p>
                 )}
               </div>
             </div>
             <div className="flex justify-between items-center mb-4 gap-4">
-              <label>Password </label>
+              <label> {t("login.Password")} </label>
               <input
                 className="rounded-lg p-1 bg-transparent border border-gray-500"
                 type="password"
@@ -190,35 +194,35 @@ const Login = () => {
                     passvalidate.hasNumber ? "valid" : ""
                   }`}
                 >
-                  Contain atleast 1 number
+                  {t("login.validations.password.num")}
                 </p>
                 <p
                   className={`passValid ${
                     passvalidate.hasSpecial ? "valid" : ""
                   }`}
                 >
-                  Contain atleast 1 special character
+                  {t("login.validations.password.special")}
                 </p>
                 <p
                   className={`passValid ${
                     passvalidate.hasUpper ? "valid" : ""
                   }`}
                 >
-                  Contain atleast 1 uppercase
+                  {t("login.validations.password.up")}
                 </p>
                 <p
                   className={`passValid ${
                     passvalidate.hasLower ? "valid" : ""
                   }`}
                 >
-                  Contain atleast 1 lowercase
+                  {t("login.validations.password.lo")}
                 </p>
                 <p
                   className={`passValid ${
                     passvalidate.hasMinLength ? "valid" : ""
                   }`}
                 >
-                  Contain atleast 8 letters
+                  {t("login.validations.password.minlength")}
                 </p>
               </div>
             )}
@@ -229,16 +233,16 @@ const Login = () => {
               onClick={handleSignUpIn}
               disabled={checkDisabled()}
             >
-              {isSignup ? "Sign up" : "Sign in"}
+              {isSignup ? t("login.signUp") : t("login.signIn")}
             </button>
             {errorMessage && <p className="text-red-600">{errorMessage}</p>}
             <p className="">
-              {isSignup ? "Already User ? " : "New to Movieflix ? "}
+              {isSignup ? t("login.alreadyUser") : t("login.newTo")}
               <span
                 className="text-blue-700 cursor-pointer"
                 onClick={(e) => setIsSignup(!isSignup)}
               >
-                {isSignup ? "Sign In" : "Sign up"}
+                {isSignup ? t("login.signIn") : t("login.signUp")}
               </span>
             </p>
           </form>
