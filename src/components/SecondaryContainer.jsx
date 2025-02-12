@@ -3,7 +3,7 @@ import MovieCarousal from "./MovieCarousal";
 
 const SecondaryContainer = ({ movieList }) => {
   return (
-    <div className="-mt-48 z-10 relative">
+    <div className="-mt-48 z-10 relative overflow-hidden">
       {movieList.map((category) => {
         return (
           <div key={category.title}>

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import YouTube from "react-youtube";
 import { useGetMovieTrailerQuery } from "../../services/youtubeService";
 import Loader from "./Loader";
 
-const YoutubePlayer = ({ onReady, searchQuery }) => {
+const YoutubePlayer = ({ onReady, searchQuery, setTrailerInfoId }) => {
   const {
     data: trailerData,
     error,
@@ -11,6 +11,10 @@ const YoutubePlayer = ({ onReady, searchQuery }) => {
   } = useGetMovieTrailerQuery(searchQuery);
 
   const trailerId = trailerData?.items[0].id.videoId;
+
+  useEffect(() => {
+    setTrailerInfoId(trailerId);
+  }, [trailerId]);
   //   const isLoading = false;
   //   const trailerId = "hDZ7y8RP5HE";
 
