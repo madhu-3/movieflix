@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { APP_LOGO_IMG } from "../constants/constants";
 import { useSelector } from "react-redux";
 import { auth } from "../utils/firebase";
 import { signOut } from "firebase/auth";
@@ -8,6 +7,7 @@ import Dialog from "./Common/Dialog";
 import LanguageSelect from "./LanguageSelect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
+import APPLOGO from "../assets/tflix.jpeg";
 
 const Header = () => {
   const user = useSelector((state) => state.userConfig.user);
@@ -23,7 +23,7 @@ const Header = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 flex justify-between h-16 bg-black brightness-75 z-20">
-      <img alt="logo" className="w-52" src={APP_LOGO_IMG} />
+      <img alt="logo" src={APPLOGO} />
 
       <FontAwesomeIcon
         icon={faLanguage}

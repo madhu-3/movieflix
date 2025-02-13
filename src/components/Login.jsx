@@ -1,10 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./login.css";
-import {
-  APP_LOGO_IMG,
-  DEFUALT_USER_PHOTO_URL,
-  LOGIN_BG_IMG,
-} from "../constants/constants";
+import { DEFUALT_USER_PHOTO_URL } from "../constants/constants";
 import { isEmailValid, isNameValid } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
@@ -17,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../store/userSlice";
 import Header from "./Header";
 import { useTranslation } from "react-i18next";
+import LOGINBGIMG from "../assets/tflixloginbg.jpg";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -127,7 +124,7 @@ const Login = () => {
       <Header />
       <div
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.527),rgba(0,0,0,0.5)), url(${LOGIN_BG_IMG})`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.527),rgba(0,0,0,0.5)), url(${LOGINBGIMG})`,
         }}
         className="h-screen bg-cover bg-no-repeat bg-center flex items-center justify-center text-white"
       >
