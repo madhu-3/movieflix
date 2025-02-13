@@ -1,36 +1,42 @@
-import React from "react";
+import { faChevronDown, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import useCloseonClickOut from "./useCloseonClickOut";
 
-const LanguageSelect = ({ handleLangClose }) => {
+const LanguageSelect = () => {
   const { i18n } = useTranslation();
+  const [toggleLang, setToggleLang] = useState(false);
+  const langRef = useRef(null);
 
-  const handleLangChange = (lang) => {
+  useCloseonClickOut(langRef, () => setToggleLang(false));
+
+  const handleLangChange = (e) => {
+    const lang = e.target.dataset.val;
     i18n.changeLanguage(lang);
-    handleLangClose();
+    setToggleLang(false);
   };
   return (
-    <div className="text-white h-full w-full flex flex-col justify-center gap-6 p-4">
-      <h1 className="text-xl">
-        Choose Language in which you want the app to display
-      </h1>
-      <div className="flex justify-center">
-        <button
-          className={`p-2 border-2 border-red-400 transition-all duration-500 hover:bg-white hover:text-black ${
-            i18n.language === "en" ? "bg-purple-500" : ""
-          }`}
-          onClick={() => handleLangChange("en")}
+    <div className="relative my-auto" ref={langRef}>
+      <button
+        onClick={() => setToggleLang(!toggleLang)}
+        className="bg-white p-3 border border-black rounded-md"
+      >
+        <div className="flex gap-2 items-center">
+          <FontAwesomeIcon icon={faGlobe} />
+          <p>{i18n.language === "en" ? "English" : "Hindi"}</p>
+          <FontAwesomeIcon icon={faChevronDown} />
+        </div>
+      </button>
+      {toggleLang && (
+        <ul
+          onClick={handleLangChange}
+          className="list-none absolute bg-white p-2 w-full cursor-pointer"
         >
-          English
-        </button>
-        <button
-          className={`p-2 border-2 border-red-400 border-l-0 transition-all duration-500 hover:bg-white hover:text-black ${
-            i18n.language === "hi" ? "bg-purple-500" : ""
-          }`}
-          onClick={(e) => handleLangChange("hi")}
-        >
-          Hindi
-        </button>
-      </div>
+          <li data-val="en">English</li>
+          <li data-val="hi">Hindi</li>
+        </ul>
+      )}
     </div>
   );
 };

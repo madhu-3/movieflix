@@ -18,5 +18,8 @@
                 "minlength":"Contain atleast 8 letters"
             }
         }
+    },
+    "header":{
+        "signOut":"Sign out"
     }
 }
