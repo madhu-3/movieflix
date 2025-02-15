@@ -21,6 +21,9 @@ export const traktAPI = createApi({
     getMostPlayedMovieList: builder.query({
       query: () => `movies/played/weekly`,
     }),
+    getMovieBySearch: builder.query({
+      query: (movieName) => `movies/${movieName}`,
+    }),
   }),
 });
 
@@ -28,4 +31,5 @@ export const {
   useLazyGetTrendingMovieListQuery,
   useLazyGetPopularMovieListQuery,
   useLazyGetMostPlayedMovieListQuery,
+  useLazyGetMovieBySearchQuery,
 } = traktAPI;

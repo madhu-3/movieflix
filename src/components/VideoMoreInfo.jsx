@@ -11,9 +11,16 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
-const VideoMoreInfo = ({ trailerId, movieData, handleClose }) => {
+const VideoMoreInfo = ({
+  trailerId,
+  movieData,
+  handleClose,
+  isMobile = false,
+  searchQuery,
+}) => {
   const [playVideo, setPlayVideo] = useState(true);
   const [muteAudio, setMuteAudio] = useState(true);
+  const [trailerInfoId, setTrailerInfoId] = useState(null);
   const playerRef = useRef(null);
 
   const opts = {
@@ -29,7 +36,7 @@ const VideoMoreInfo = ({ trailerId, movieData, handleClose }) => {
       fs: 0,
       showInfo: 0,
       disableKb: 1,
-      playlist: trailerId, // Required for loop
+      playlist: isMobile ? trailerInfoId : trailerId, // Required for loop
     },
   };
   const onReady = (event) => {
@@ -58,13 +65,22 @@ const VideoMoreInfo = ({ trailerId, movieData, handleClose }) => {
   }, [playerRef, muteAudio]);
 
   return (
-    <div className="h-full overflow-scroll text-white">
-      <YouTube
-        videoId={trailerId}
-        opts={opts}
-        onReady={onReady}
-        className="w-full h-[60%]"
-      />
+    <div className="h-full overflow-auto text-white">
+      {isMobile ? (
+        <YoutubePlayer
+          onReady={onReady}
+          searchQuery={searchQuery}
+          setTrailerInfoId={setTrailerInfoId}
+          styles="w-full h-[50%] md:h-[60%]"
+        />
+      ) : (
+        <YouTube
+          videoId={trailerId}
+          opts={opts}
+          onReady={onReady}
+          className="w-full h-[50%] md:h-[60%]"
+        />
+      )}
       <div className="absolute top-1/3 left-[5%] z-10">
         <div>
           <button
@@ -73,12 +89,13 @@ const VideoMoreInfo = ({ trailerId, movieData, handleClose }) => {
           >
             {playVideo ? (
               <>
-                <FontAwesomeIcon icon={faPause} className="mr-2" />
-                Pause
+                <FontAwesomeIcon icon={faPause} className="md:mr-2" />
+                <span className=" hidden md:inline">Pause</span>
               </>
             ) : (
               <>
-                <FontAwesomeIcon icon={faPlay} className="mr-2" /> Play
+                <FontAwesomeIcon icon={faPlay} className="md:mr-2" />
+                <span className=" hidden md:inline">Play</span>
               </>
             )}
           </button>
@@ -98,7 +115,7 @@ const VideoMoreInfo = ({ trailerId, movieData, handleClose }) => {
       <FontAwesomeIcon
         icon={faXmark}
         size="2xl"
-        className="absolute top-0 -right-2 cursor-pointer"
+        className="absolute top-0 right-1 md:-right-2 cursor-pointer z-50"
         onClick={handleClose}
       />
       <div className="p-1">
@@ -144,7 +161,7 @@ const VideoMoreInfo = ({ trailerId, movieData, handleClose }) => {
         </div>
         <div>
           <p className="text-2xl text-white">{`About ${movieData?.Title}`}</p>
-          <div>
+          <div className="text-xs md:text-xl">
             <div className="flex gap-2">
               <label className="text-[#777]">Director:</label>
               <p>{movieData?.Director}</p>

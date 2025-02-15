@@ -7,6 +7,7 @@ import { auth } from "../utils/firebase";
 import { addUser, removeUser } from "../store/userSlice";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
+import GPTSearch from "./GPTSearch";
 const Body = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,14 @@ const Body = () => {
       element: (
         <ProtectedRoute>
           <Browse />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/gptsearch",
+      element: (
+        <ProtectedRoute>
+          <GPTSearch />
         </ProtectedRoute>
       ),
     },

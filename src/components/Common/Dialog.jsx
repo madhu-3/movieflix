@@ -6,7 +6,7 @@ const Dialog = ({ isOpen, children }) => {
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-80 z-20">
-      <div className="h-full w-1/2 bg-black relative">{children}</div>
+      <div className="h-full w-full lg:w-1/2 bg-black relative">{children}</div>
     </div>,
     document.getElementById("dialog-root")
   );

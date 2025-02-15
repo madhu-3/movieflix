@@ -3,7 +3,7 @@ import YouTube from "react-youtube";
 import { useGetMovieTrailerQuery } from "../../services/youtubeService";
 import Loader from "./Loader";
 
-const YoutubePlayer = ({ onReady, searchQuery, setTrailerInfoId }) => {
+const YoutubePlayer = ({ onReady, searchQuery, setTrailerInfoId, styles }) => {
   const {
     data: trailerData,
     error,
@@ -44,7 +44,7 @@ const YoutubePlayer = ({ onReady, searchQuery, setTrailerInfoId }) => {
           videoId={trailerId}
           opts={opts}
           onReady={onReady}
-          className="w-full"
+          className={styles}
         />
       )}
     </>

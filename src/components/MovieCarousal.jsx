@@ -42,7 +42,7 @@ const MovieCarousal = ({ movieData, type }) => {
         {movieData.map((movie, index) => {
           let imdbId;
           let title;
-          if (type === "Popular Movies") {
+          if (type === "Popular Movies" || type === "AI Result Movies") {
             imdbId = movie?.ids?.imdb;
             title = movie.title;
           } else {

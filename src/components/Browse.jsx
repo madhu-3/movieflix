@@ -52,7 +52,7 @@ const Browse = () => {
         <>
           {movieList.length > 0 && (
             <>
-              <MainVideoContainer trendingMovie={trendingMovies[0]} />
+              <MainVideoContainer trendingMovie={trendingMovies?.[0]} />
               <SecondaryContainer movieList={movieList} />
             </>
           )}

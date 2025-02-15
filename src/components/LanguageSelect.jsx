@@ -20,7 +20,7 @@ const LanguageSelect = () => {
     <div className="relative my-auto" ref={langRef}>
       <button
         onClick={() => setToggleLang(!toggleLang)}
-        className="bg-white p-3 border border-black rounded-md"
+        className="bg-white p-2 border border-black rounded-md"
       >
         <div className="flex gap-2 items-center">
           <FontAwesomeIcon icon={faGlobe} />

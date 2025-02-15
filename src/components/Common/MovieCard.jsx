@@ -11,6 +11,7 @@ import {
   faVolumeXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import VideoMoreInfo from "../VideoMoreInfo";
+import fallbackposter from "../../assets/posterfallback.jpg";
 
 const MovieCard = ({
   movieItem,
@@ -28,6 +29,7 @@ const MovieCard = ({
 
   const cardRef = useRef(null);
   const playerRef = useRef(null);
+  const isMobile = window.matchMedia("(pointer:coarse)").matches;
 
   const {
     data: movieData,
@@ -36,7 +38,7 @@ const MovieCard = ({
   } = useGetMovieDetailsQuery(imdbId, { skip: !imdbId });
 
   let searchQuery = "";
-  if (type === "Popular Movies") {
+  if (type === "Popular Movies" || type === "AI Result Movies") {
     searchQuery = movieItem?.ids?.slug || movieItem?.title;
   } else {
     searchQuery = movieItem?.movie?.ids?.slug || movieItem?.movie?.title;
@@ -101,12 +103,14 @@ const MovieCard = ({
           trailerId={trailerInfoId}
           movieData={movieData}
           handleClose={handleMoreInfoClose}
+          isMobile={isMobile}
+          searchQuery={searchQuery}
         />
       </Dialog>
       <div
         ref={cardRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={!isMobile ? handleMouseEnter : undefined}
+        onMouseLeave={!isMobile ? handleMouseLeave : undefined}
         className={`relative w-[200px] h-[300px] cursor-pointer transition-transform duration-300 ease-in-out ${
           isHovered ? " scale-125 z-50" : "z-10"
         }`}
@@ -125,6 +129,7 @@ const MovieCard = ({
               onReady={onReady}
               searchQuery={searchQuery}
               setTrailerInfoId={setTrailerInfoId}
+              styles="w-full"
             />
             <div className="p-3">
               <div className="flex gap-2 mt-3 justify-between">
@@ -164,11 +169,22 @@ const MovieCard = ({
             </div>
           </div>
         ) : (
-          <img
-            className="h-full w-full object-cover rounded-lg"
-            alt="movie_poster"
-            src={movieData?.Poster}
-          />
+          <div className="relative">
+            <img
+              className="h-full w-full object-cover rounded-lg"
+              alt="movie_poster"
+              src={
+                movieData?.Poster === "N/A" ? fallbackposter : movieData?.Poster
+              }
+              onError={(e) => (e.target.src = fallbackposter)}
+              onClick={isMobile ? handleMoreInfo : undefined}
+            />
+            {movieData?.Poster === "N/A" && (
+              <div className="absolute w-full top-0 text-center font-bold text-2xl">
+                {title}
+              </div>
+            )}
+          </div>
         )}
       </div>
     </>

@@ -47,7 +47,9 @@ const MainVideoTitleContainer = ({
         />
       </Dialog>
       <div className="absolute top-1/2 left-[5%] z-10">
-        <p className="text-7xl font-bold text-white mb-1">{title}</p>
+        <p className="text-2xl md:text-7xl font-bold text-white mb-1">
+          {title}
+        </p>
         <div>
           <button
             className="bg-white text-black px-4 py-2 rounded-sm mr-4"
@@ -55,8 +57,8 @@ const MainVideoTitleContainer = ({
           >
             {playVideo ? (
               <>
-                <FontAwesomeIcon icon={faPause} className="mr-2" />
-                Pause
+                <FontAwesomeIcon icon={faPause} className="md:mr-2" />
+                <span className=" hidden md:inline">Pause</span>
               </>
             ) : (
               <>
@@ -68,8 +70,8 @@ const MainVideoTitleContainer = ({
             className="bg-gray-600 text-black px-4 py-2 rounded-sm mr-4"
             onClick={handleMoreInfo}
           >
-            <FontAwesomeIcon icon={faCircleInfo} className="mr-2" />
-            More Info
+            <FontAwesomeIcon icon={faCircleInfo} className="md:mr-2" />
+            <span className="hidden md:inline">More Info</span>
           </button>
 
           <button

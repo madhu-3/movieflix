@@ -62,7 +62,7 @@ const MainVideoContainer = ({ trendingMovie }) => {
   };
 
   return (
-    <div className="mt-16 h-[calc(100vh-64px)] relative">
+    <div className="mt-16 h-80 md:h-[calc(100vh-64px)] relative">
       {isLoading ? (
         <Loader />
       ) : (
