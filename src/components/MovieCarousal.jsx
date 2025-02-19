@@ -6,11 +6,16 @@ import "swiper/css/pagination";
 //import "./Carousel.css"; // Custom styles
 import { Navigation } from "swiper/modules";
 import MovieCard from "./Common/MovieCard";
+import Loader from "./Common/Loader";
+import { useLazyGetMovieDetailsQuery } from "../services/omdbService";
 
 const MovieCarousal = ({ movieData, type }) => {
-  const [slides, setSlides] = useState(Math.floor(window.innerWidth / 192));
+  const [slides, setSlides] = useState(Math.floor(window.innerWidth / 200));
   const [hoveredItem, setHoveredItem] = useState(null);
-  let id = null;
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [triggerGetMovieDetails] = useLazyGetMovieDetailsQuery();
+  let id;
 
   useEffect(() => {
     const handleResize = () => {
@@ -18,7 +23,7 @@ const MovieCarousal = ({ movieData, type }) => {
         clearTimeout(id);
       }
       id = setTimeout(() => {
-        const slidesPerView = Math.floor(window.innerWidth / 192);
+        const slidesPerView = Math.floor(window.innerWidth / 200);
         setSlides(slidesPerView);
       }, 500);
     };
@@ -29,48 +34,91 @@ const MovieCarousal = ({ movieData, type }) => {
     };
   }, []);
 
-  return (
-    <div className="relative w-full movie-container">
-      <Swiper
-        modules={[Navigation]}
-        spaceBetween={10}
-        slidesPerView={slides}
-        navigation
-        loop={true}
-        className="!px-6 !overflow-visible"
-      >
-        {movieData.map((movie, index) => {
-          let imdbId;
-          let title;
-          if (type === "Popular Movies" || type === "AI Result Movies") {
-            imdbId = movie?.ids?.imdb;
-            title = movie.title;
-          } else {
-            imdbId = movie?.movie?.ids?.imdb;
-            title = movie?.movie?.title;
-          }
+  useEffect(() => {
+    if (!movieData) return;
+    setLoading(true);
+    Promise.all(
+      movieData.map((movie) => {
+        let imdbId;
+        if (type === "Popular Movies" || type === "AI Result Movies") {
+          imdbId = movie?.ids?.imdb;
+        } else {
+          imdbId = movie?.movie?.ids?.imdb;
+        }
+        return triggerGetMovieDetails(imdbId, { skip: !imdbId }).unwrap();
+      })
+    )
+      .then((results) => {
+        const final = results
+          .filter((movie) => {
+            return !(movie?.Response === "False");
+          })
+          .map((mve) => {
+            let slug;
+            for (let i = 0; i < movieData.length; i++) {
+              if (type === "Popular Movies" || type === "AI Result Movies") {
+                if (movieData[i]?.ids?.imdb === mve.imdbID) {
+                  slug = movieData[i]?.ids?.slug;
+                  break;
+                }
+              } else {
+                if (movieData[i]?.movie?.ids?.imdb === mve.imdbID) {
+                  slug = movieData[i]?.movie?.ids?.slug;
+                  break;
+                }
+              }
+            }
 
-          return (
-            <SwiperSlide
-              key={movie.id}
-              className={`relative overflow-visible ${
-                hoveredItem === title ? "z-50" : "z-10"
-              }`}
-            >
-              <MovieCard
-                key={index}
-                movieItem={movie}
-                imdbId={imdbId}
-                title={title}
-                type={type}
-                isHovered={title === hoveredItem}
-                setHoveredItem={setHoveredItem}
-              />
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-    </div>
+            return { ...mve, slug: slug };
+          });
+        setData(final);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
+    data && (
+      <div className="relative w-full movie-container">
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={10}
+          slidesPerView={slides}
+          navigation
+          loop={true}
+          className="!px-6 !overflow-visible"
+        >
+          {data.map((movie, index) => {
+            return (
+              <SwiperSlide
+                key={movie.imdbID}
+                className={`relative   ${
+                  hoveredItem === movie.Title
+                    ? "overflow-visible z-50"
+                    : "overflow-hidden  z-10"
+                }`}
+              >
+                <MovieCard
+                  movieData={movie}
+                  title={movie.Title}
+                  searchQuery={movie.slug || movie.Title}
+                  isHovered={movie.Title === hoveredItem}
+                  setHoveredItem={setHoveredItem}
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </div>
+    )
   );
 };
 

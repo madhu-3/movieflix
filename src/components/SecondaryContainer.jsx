@@ -10,8 +10,8 @@ const SecondaryContainer = ({ movieList, aiList = false }) => {
     >
       {movieList.map((category) => {
         return (
-          <div key={category.title}>
-            <div className="text-bold text-2xl md:text-3xl text-white mb-6">
+          <div key={category.title} className="mb-8">
+            <div className="text-bold text-2xl md:text-3xl text-white mb-6 pl-2">
               {category.title}
             </div>
             <MovieCarousal movieData={category.data} type={category.title} />

@@ -1,5 +1,4 @@
 import React, { useCallback, useRef, useState } from "react";
-import { useGetMovieDetailsQuery } from "../../services/omdbService";
 import YoutubePlayer from "./YoutubePlayer";
 import Dialog from "../Common/Dialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,12 +13,11 @@ import VideoMoreInfo from "../VideoMoreInfo";
 import fallbackposter from "../../assets/posterfallback.jpg";
 
 const MovieCard = ({
-  movieItem,
-  type,
-  imdbId,
+  movieData,
   title,
   isHovered,
   setHoveredItem,
+  searchQuery,
 }) => {
   const [cardPos, setCardPos] = useState("center");
   const [playVideo, setPlayVideo] = useState(true);
@@ -29,20 +27,9 @@ const MovieCard = ({
 
   const cardRef = useRef(null);
   const playerRef = useRef(null);
+  let movieEnterId;
   const isMobile = window.matchMedia("(pointer:coarse)").matches;
 
-  const {
-    data: movieData,
-    error,
-    isLoading,
-  } = useGetMovieDetailsQuery(imdbId, { skip: !imdbId });
-
-  let searchQuery = "";
-  if (type === "Popular Movies" || type === "AI Result Movies") {
-    searchQuery = movieItem?.ids?.slug || movieItem?.title;
-  } else {
-    searchQuery = movieItem?.movie?.ids?.slug || movieItem?.movie?.title;
-  }
   const onReady = (event) => {
     playerRef.current = event.target;
   };
@@ -68,6 +55,17 @@ const MovieCard = ({
     }
   }, [playerRef, muteAudio]);
 
+  const debounceFn = (fn, delay) => {
+    return function (...args) {
+      if (movieEnterId) {
+        clearTimeout(movieEnterId);
+      }
+      movieEnterId = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  };
+
   const handleMouseEnter = () => {
     const pos = cardRef.current.getBoundingClientRect();
     const screenWidth = window.innerWidth;
@@ -82,7 +80,13 @@ const MovieCard = ({
       setHoveredItem(title);
     }
   };
+
+  const debouncedFn = debounceFn(handleMouseEnter, 1500);
+
   const handleMouseLeave = () => {
+    if (movieEnterId) {
+      clearTimeout(movieEnterId);
+    }
     setHoveredItem(null);
   };
   const handleMoreInfo = () => {
@@ -91,10 +95,6 @@ const MovieCard = ({
   const handleMoreInfoClose = () => {
     setMoreInfoOpen(false);
   };
-
-  if (isLoading) {
-    return <div>loading....</div>;
-  }
 
   return (
     <>
@@ -109,7 +109,7 @@ const MovieCard = ({
       </Dialog>
       <div
         ref={cardRef}
-        onMouseEnter={!isMobile ? handleMouseEnter : undefined}
+        onMouseEnter={!isMobile ? debouncedFn : undefined}
         onMouseLeave={!isMobile ? handleMouseLeave : undefined}
         className={`relative w-[200px] h-[300px] cursor-pointer transition-transform duration-300 ease-in-out ${
           isHovered ? " scale-125 z-50" : "z-10"

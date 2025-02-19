@@ -37,6 +37,7 @@ const VideoMoreInfo = ({
       showInfo: 0,
       disableKb: 1,
       playlist: isMobile ? trailerInfoId : trailerId, // Required for loop
+      wmode: "transparent",
     },
   };
   const onReady = (event) => {
@@ -71,7 +72,7 @@ const VideoMoreInfo = ({
           onReady={onReady}
           searchQuery={searchQuery}
           setTrailerInfoId={setTrailerInfoId}
-          styles="w-full h-[50%] md:h-[60%]"
+          styles="w-full h-[50%] md:h-[60%] pointer-events-none"
         />
       ) : (
         <YouTube

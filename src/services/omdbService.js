@@ -13,4 +13,4 @@ export const omdbAPI = createApi({
   }),
 });
 
-export const { useGetMovieDetailsQuery } = omdbAPI;
+export const { useGetMovieDetailsQuery, useLazyGetMovieDetailsQuery } = omdbAPI;
